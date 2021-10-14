@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="HeadFiles">
+      <UniqueIdentifier>{bfba58e3-f96b-4d69-89b9-bb1e40c65af8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles">
+      <UniqueIdentifier>{056f1a5c-9120-426c-9055-3c6109967e18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WebSocket">
+      <UniqueIdentifier>{9be0456c-205a-4796-930a-a6d7c952406d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base">
+      <UniqueIdentifier>{dda5743b-105c-4919-80c3-62b93d362b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{ea4ae35b-01a5-4ada-8c68-42e59fe8e738}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CmdDeal.h">
+      <Filter>HeadFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="commonCmd.h">
+      <Filter>HeadFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TC_Epoller.h">
+      <Filter>HeadFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="UserData.h">
+      <Filter>HeadFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="WebSocket\base64.h">
+      <Filter>WebSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="WebSocket\sha1.h">
+      <Filter>WebSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="WebSocket\WebSocketHelper.h">
+      <Filter>WebSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="base\AsyncLogging.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\ConfigFileReader.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\CountDownLatch.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\FileUtil.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\LogFile.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Logging.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\LogStream.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Singleton.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Timestamp.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="Task.h">
+      <Filter>HeadFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>HeadFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerManager.h">
+      <Filter>HeadFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IEpoller.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IUserManager.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>HeadFiles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="UserData.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="CmdDeal.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TC_Epoller.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="WebSocket\base64.cpp">
+      <Filter>WebSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="WebSocket\sha1.cpp">
+      <Filter>WebSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="WebSocket\WebSocketHelper.cpp">
+      <Filter>WebSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="base\AsyncLogging.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\ConfigFileReader.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\CountDownLatch.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\FileUtil.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\LogFile.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\Logging.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\LogStream.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\Timestamp.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="Task.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerManager.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
