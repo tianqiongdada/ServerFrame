@@ -87,6 +87,12 @@
     <ClCompile Include="base\Timestamp.cpp" />
     <ClCompile Include="CmdDeal.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mysql\AsyDBTask.cpp" />
+    <ClCompile Include="mysql\Field.cpp" />
+    <ClCompile Include="mysql\MysqlLink.cpp" />
+    <ClCompile Include="mysql\MysqlLinkManager.cpp" />
+    <ClCompile Include="mysql\MysqlManager.cpp" />
+    <ClCompile Include="mysql\QueryResult.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="TC_Epoller.cpp" />
     <ClCompile Include="TimerManager.cpp" />
@@ -110,6 +116,14 @@
     <ClInclude Include="commonCmd.h" />
     <ClInclude Include="Interface\IEpoller.h" />
     <ClInclude Include="Interface\IUserManager.h" />
+    <ClInclude Include="mysql\AsyDBTask.h" />
+    <ClInclude Include="mysql\Field.h" />
+    <ClInclude Include="mysql\MysqlCommon.h" />
+    <ClInclude Include="mysql\MysqlLink.h" />
+    <ClInclude Include="mysql\MysqlLinkManager.h" />
+    <ClInclude Include="mysql\MysqlManager.h" />
+    <ClInclude Include="mysql\MysqlTask.h" />
+    <ClInclude Include="mysql\QueryResult.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TC_Epoller.h" />
     <ClInclude Include="ThreadPool.h" />
@@ -134,12 +148,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalOptions>-lpthread %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-L/usr/local/mysql/lib -lmysqlclient %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalOptions>-lpthread %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-L/usr/local/mysql/lib -lmysqlclient %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
