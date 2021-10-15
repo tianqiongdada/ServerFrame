@@ -57,7 +57,7 @@ public:
 
 public:
 	bool Init();
-	bool InitMysqlLink(emHostID hostID, char* szHost, const char* szUser, const char* szPwd);
+	bool InitMysqlLink(emHostID hostID, char* szHost, const char* szUser, const char* szPwd, const std::vector<string>& vcDatabase);
 
     void InitSTableInfo(const STableInfo& info);
     bool CreateTable(void);

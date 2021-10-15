@@ -18,13 +18,13 @@ CMysqlLinkManager::~CMysqlLinkManager()
 
 }
 
-bool CMysqlLinkManager::Init()
-{
-	if (!AddLink("test"))
-		return false; 
-
-	return true;
-}
+//bool CMysqlLinkManager::Init()
+//{
+//	if (!AddLink("test"))
+//		return false; 
+//
+//	return true;
+//}
 
 bool CMysqlLinkManager::Init(const std::vector<string>& vcDatabase)
 {

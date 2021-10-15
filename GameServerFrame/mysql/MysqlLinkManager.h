@@ -20,7 +20,7 @@ private:
 	std::map<string, std::shared_ptr<CMysqlLink>> m_mapMysqlLink; //连接对象
 
 public:
-	bool Init();
+	//bool Init();
 	bool Init(const std::vector<string>& vcDatabase);
 	bool AddLink(string&& baseName);
 	std::shared_ptr<CMysqlLink> GetLink(const string& baseName) { return m_mapMysqlLink[baseName]; }

@@ -6,7 +6,7 @@ CMysqlManager g_MysqlManager;
 
 CMysqlManager::CMysqlManager(void)
 {
-
+	Init();
 }
 
 CMysqlManager::~CMysqlManager(void)
@@ -17,11 +17,11 @@ CMysqlManager::~CMysqlManager(void)
 
 bool CMysqlManager::Init()
 {
-	return InitMysqlLink(HOST_TEST, "172.17.0.12", "root", "XiOnG02082958413");
+	return InitMysqlLink(HOST_TEST, "172.17.0.12", "root", "XiOnG02082958413", vector<string>{"test"});
 }
 
 
-bool CMysqlManager::InitMysqlLink(emHostID hostID, char* szHost, const char* szUser, const char* szPwd)
+bool CMysqlManager::InitMysqlLink(emHostID hostID, char* szHost, const char* szUser, const char* szPwd, const std::vector<string>& vcDatabase)
 {
 	if (m_mapMysqlLinkManager.find(hostID) != m_mapMysqlLinkManager.end())
 	{
@@ -37,7 +37,7 @@ bool CMysqlManager::InitMysqlLink(emHostID hostID, char* szHost, const char* szU
 
 	std::shared_ptr<CMysqlLinkManager> pLinkManager = std::make_shared<CMysqlLinkManager>(szHost, szUser, szPwd);
 
-	if (!pLinkManager->Init())
+	if (!pLinkManager->Init(vcDatabase))
 		return false;
 
 	m_mapMysqlLinkManager[hostID] = pLinkManager;

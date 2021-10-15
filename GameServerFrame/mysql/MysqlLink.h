@@ -50,7 +50,7 @@ private:
 	queue<MYSQL*> m_qMySqlPool;			//连接池,空闲连接		
 	mutex m_lock;						//连接池锁
 	mutex m_initlock;					//mysql 初始化锁
-	int	m_nPoolSize{16};					//连接池大小，一般来说要超过线程池的大小
+	int	m_nPoolSize{16};				//连接池大小，一般来说要超过线程池的大小
 	atomic<bool> m_bInitFinish{false};	//初始化完成标志
 };
 
