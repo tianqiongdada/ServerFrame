@@ -89,6 +89,7 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
+	//心跳链接
 	TimingTaskCommit(Time_5_Sec, "UserKeepLife", CTask::UserKeepLife, (IUserManger*)pUserManger);
 
 	for (;;)

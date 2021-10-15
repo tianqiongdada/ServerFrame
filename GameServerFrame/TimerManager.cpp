@@ -75,7 +75,7 @@ int TimerManager::_AddTimerObjToEpoll(int tFd, stTimerParam* pParam)
     return m_pEpoller->add(tFd, pParam, EPOLLIN | EPOLLERR | EPOLLHUP);
 }
 
-void TimerManager::Timer100Sec(int tFd)
+void TimerManager::Timer100mSec(int tFd)
 {
 	uint64_t exp = 0;
 	int ret = read(tFd, &exp, sizeof(uint64_t));
@@ -171,7 +171,7 @@ int TimerManager::CreateTimerTask(uint uiSec, uint uiNsec, TimingFunc func)
 
 bool TimerManager::CreateTimerTasks()
 {
-	TimingFunc t001 = Timer100Sec;
+	TimingFunc t001 = Timer100mSec;
 	TimingFunc t1 = Timer1Sec;
 	TimingFunc t5 = Timer5Sec;
     TimingFunc t30 = Timer30Sec;

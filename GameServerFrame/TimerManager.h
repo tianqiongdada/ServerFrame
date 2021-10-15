@@ -78,7 +78,7 @@ private:
 
 	//定时执行的任务
 private:
-	static void Timer100Sec(int tFd);		//100毫秒秒执行的任务
+	static void Timer100mSec(int tFd);		//100毫秒秒执行的任务
 	static void Timer1Sec(int tFd);			//1秒执行的任务
 	static void Timer5Sec(int tFd);			//5秒执行的任务
 	static void Timer30Sec(int tFd);		//30秒执行的任务
