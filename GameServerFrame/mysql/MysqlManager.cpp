@@ -6,7 +6,6 @@ CMysqlManager g_MysqlManager;
 
 CMysqlManager::CMysqlManager(void)
 {
-	Init();
 }
 
 CMysqlManager::~CMysqlManager(void)
@@ -17,15 +16,15 @@ CMysqlManager::~CMysqlManager(void)
 
 bool CMysqlManager::Init()
 {
-	return InitMysqlLink(HOST_TEST, "172.17.0.12", "root", "XiOnG02082958413", vector<string>{"test"});
+	bool bSuc = InitMysqlLink(HOST_LOCAL, "172.17.0.12", "usename", "passwd", vector<string>{"test", "User"});
+	return bSuc;
 }
-
 
 bool CMysqlManager::InitMysqlLink(emHostID hostID, char* szHost, const char* szUser, const char* szPwd, const std::vector<string>& vcDatabase)
 {
 	if (m_mapMysqlLinkManager.find(hostID) != m_mapMysqlLinkManager.end())
 	{
-		LOG_ERROR << "hostID:" << hostID << "is already init!";
+		LOG_INFO << "hostID:" << hostID << "is already init!";
 		return false;
 	}
 
