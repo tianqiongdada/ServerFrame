@@ -8,11 +8,12 @@
     <RemoteDebuggingMode>gdb</RemoteDebuggingMode>
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
     <RemoteDebuggingTarget>-907714975;1.116.188.117 (username=, port=1688, authentication=Password)</RemoteDebuggingTarget>
+    <RemoteDebuggerCommandArguments>12345</RemoteDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <RemoteTarget>609105584;1.116.188.117 (username=, port=1688, authentication=Password)</RemoteTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <ShowAllFiles>true</ShowAllFiles>
+    <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
 </Project>

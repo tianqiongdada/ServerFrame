@@ -10,34 +10,34 @@
 #include "base64.h"
 using namespace std;
 
-//³É¹¦
+//æˆåŠŸ
 #define WEBSOCKET_SUCCESS 1
-//ĞèÒª¼ÌĞø¶ÁÈ¡Êı¾İ
+//éœ€è¦ç»§ç»­è¯»å–æ•°æ®
 #define WEBSOCKET_READING_DATA 0
-//Ê§°Ü
+//å¤±è´¥
 #define WEBSOCKET_ERROR -1
-//²»ÊÇwebsocket
+//ä¸æ˜¯websocket
 #define WEBSOCKET_NOT -2
-//ºöÂÔ
+//å¿½ç•¥
 #define WEBSOCKET_IGNORE -3
-//¹Ø±Õ
+//å…³é—­
 #define WEBSOCKET_CLOSE -4
-//ÎÄ±¾ÏûÏ¢
+//æ–‡æœ¬æ¶ˆæ¯
 #define WEBSOCKET_TEXT -5
 
-#define MAX_RECVBUF_LEN					4096+32
-#define MAX_SENDBUF_LEN					4096+32
+#define MAX_RECVBUF_LEN	4096+32
+#define MAX_SENDBUF_LEN	4096+32
 
-//websocket×´Ì¬Ã¶¾Ù
+//websocketçŠ¶æ€æšä¸¾
 enum WebsocketState
 {
-	beforCheck = 0,		// µÈ´ıĞ£Ñéµ±Ç°Á¬½ÓÊÇ·ñwebsocket
-	notWebSocket = 1,	//µ±Ç°Á¬½Ó²»ÊÇwebsocket
-	handshake = 2,		// ÎÕÊÖÆÚ¼ä
-	transData = 3		// Êı¾İ´«ÊäÆÚ¼ä
+	beforCheck = 0,		// ç­‰å¾…æ ¡éªŒå½“å‰è¿æ¥æ˜¯å¦websocket
+	notWebSocket = 1,	//å½“å‰è¿æ¥ä¸æ˜¯websocket
+	handshake = 2,		// æ¡æ‰‹æœŸé—´
+	transData = 3		// æ•°æ®ä¼ è¾“æœŸé—´
 };
 
-//websocket ¸¨ÖúÀà
+//websocket è¾…åŠ©ç±»
 class WebSocketHelper
 {
 public:
@@ -45,58 +45,58 @@ public:
 	~WebSocketHelper();
 
 public:
-	//ÊÇ·ñĞèÒª½øĞĞwebsocket²Ù×÷,ÎÕÊÖ£¬½â°üµÈ
+	//æ˜¯å¦éœ€è¦è¿›è¡Œwebsocketæ“ä½œ,æ¡æ‰‹ï¼Œè§£åŒ…ç­‰
 	bool NeedWebSocketOperate();
-	//ÊÇ·ñ½øĞĞÎÕÊÖ²Ù×÷
+	//æ˜¯å¦è¿›è¡Œæ¡æ‰‹æ“ä½œ
 	bool NeedHandshake();
-	//ÊÇ·ñÍê³ÉÁËÎÕÊÖ,¿ÉÒÔ´«ÊäÊı¾İ
+	//æ˜¯å¦å®Œæˆäº†æ¡æ‰‹,å¯ä»¥ä¼ è¾“æ•°æ®
 	bool CanTransData();
-	//ÉèÖÃÎÕÊÖ³É¹¦
+	//è®¾ç½®æ¡æ‰‹æˆåŠŸ
 	void HandShakeSuccess();
-	//ÖØÖÃ×´Ì¬ºÍÊı¾İ
+	//é‡ç½®çŠ¶æ€å’Œæ•°æ®
 	void Clear();
-	//ÖØÖÃÊı¾İ
+	//é‡ç½®æ•°æ®
 	void ClearData();
 	
 	/*
-	websocket ÎÕÊÖ
-	@param char *recvData ±¾´Î½ÓÊÕµÄÊı¾İ°ü
-	@param char *sendData ±¾´ÎÎÕÊÖ³É¹¦Òª·¢ËÍµÄÊı¾İ°ü
-	@return ³É¹¦Ôò·µ»ØWEBSOCKET_SUCCESS,µÈ´ıÊı¾İ WEBSOCKET_READING_DATA£¬Ê§°ÜWEBSOCKET_ERROR
+	websocket æ¡æ‰‹
+	@param char *recvData æœ¬æ¬¡æ¥æ”¶çš„æ•°æ®åŒ…
+	@param char *sendData æœ¬æ¬¡æ¡æ‰‹æˆåŠŸè¦å‘é€çš„æ•°æ®åŒ…
+	@return æˆåŠŸåˆ™è¿”å›WEBSOCKET_SUCCESS,ç­‰å¾…æ•°æ® WEBSOCKET_READING_DATAï¼Œå¤±è´¥WEBSOCKET_ERROR
 	*/
 	int HandShake(char *recvData, ushort  dwRecvLen, char *sendData);
 	
 	/*
-	websocket ½ÓÊÕ²¢½âwebsocketÊı¾İ°ü
-	@param char *recvData ±¾´Î½ÓÊÕµÄÊı¾İ°ü
-	@param ushort  dwRecvLen ±¾´Î½ÓÊÕµÄÊı¾İ°ü³¤¶È
-	@param char *cmdData ½â°üºóµÄÊı¾İ
-	@param ushort  *dwCmdLen ½â°üºóµÄÊı¾İ³¤¶È
-	@return ³É¹¦Ôò·µ»ØWEBSOCKET_SUCCESS,µÈ´ıÊı¾İ WEBSOCKET_READING_DATA£¬Ê§°ÜWEBSOCKET_ERROR
+	websocket æ¥æ”¶å¹¶è§£websocketæ•°æ®åŒ…
+	@param char *recvData æœ¬æ¬¡æ¥æ”¶çš„æ•°æ®åŒ…
+	@param ushort  dwRecvLen æœ¬æ¬¡æ¥æ”¶çš„æ•°æ®åŒ…é•¿åº¦
+	@param char *cmdData è§£åŒ…åçš„æ•°æ®
+	@param ushort  *dwCmdLen è§£åŒ…åçš„æ•°æ®é•¿åº¦
+	@return æˆåŠŸåˆ™è¿”å›WEBSOCKET_SUCCESS,ç­‰å¾…æ•°æ® WEBSOCKET_READING_DATAï¼Œå¤±è´¥WEBSOCKET_ERROR
 	*/
 	int Unpack(char *recvData,ushort  dwRecvLen, char *cmdData, ushort  *dwCmdLen);
 	
 	/*
-	websocket ·â×°websocketÊı¾İ°ü
-	@param char *cmdData ÃüÁîÊı¾İ°ü
-	@param char *sendData ·â×°ºóÒª·¢ËÍµÄÊı¾İ°ü	
-	@param ushort *wSendlen ·â°üºóµÄÊı¾İ³¤¶È
-	@return ³É¹¦Ôò·µ»Øtrue
+	websocket å°è£…websocketæ•°æ®åŒ…
+	@param char *cmdData å‘½ä»¤æ•°æ®åŒ…
+	@param char *sendData å°è£…åè¦å‘é€çš„æ•°æ®åŒ…	
+	@param ushort *wSendlen å°åŒ…åçš„æ•°æ®é•¿åº¦
+	@return æˆåŠŸåˆ™è¿”å›true
 	*/
 	bool Pack(const char *cmdData, ushort cmdLen, char *sendData, ushort *wSendlen);
 
 private:
-	//ÉèÖÃwebsocket×´Ì¬
+	//è®¾ç½®websocketçŠ¶æ€
 	void ChangeState(WebsocketState state);
 
 
 private:
 	WebsocketState m_wsState;
-	//µ±Ç°ÒÑ¾­½ÓÊÕµ½µÄÊı¾İ
+	//å½“å‰å·²ç»æ¥æ”¶åˆ°çš„æ•°æ®
 	char m_szRecvBuf[MAX_SENDBUF_LEN];
-	//ÒÑ¾­½ÓÊÕµ½µÄÊı¾İ³¤¶È
+	//å·²ç»æ¥æ”¶åˆ°çš„æ•°æ®é•¿åº¦
 	ushort m_wRecvedLen;	
-	//ÊÇ·ñÕıÔÚ½ÓÊÕÊı¾İ
+	//æ˜¯å¦æ­£åœ¨æ¥æ”¶æ•°æ®
 	bool m_bRecivingData;
 };
 

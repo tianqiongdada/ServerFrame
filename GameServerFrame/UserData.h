@@ -4,6 +4,7 @@
 #include "common.h"
 #include "CmdDeal.h"
 #include "Interface/IUserManager.h"
+#include "CUser.h"
 
 struct stUserFlags : public stEpollParamBase    //用户标志，SocketID 和用户数组下标，epoll事件传输时获取用户
 {
@@ -26,11 +27,12 @@ struct stUserData
 	uint nSendDataLen;							//发送数据的长度
 	bool bHaveData;								//数据标志
 	stUserFlags* pUserFlags;					//玩家标志
+	CUser* pUser;
 
 	stUserData()
 	{
 		Clear();
-		pUserFlags = new stUserFlags;
+		init();
 	}
 
 	~stUserData()
@@ -38,12 +40,26 @@ struct stUserData
 		Clear();
 	}
 
+	void init()
+	{
+		if (!pUserFlags)
+			pUserFlags = new stUserFlags();
+		
+		if (!pUser)
+			pUser = new CUser(pUserFlags);
+	}
+
 	void Clear()
 	{
 		if (pUserFlags)
 		{
-			delete []pUserFlags;
-			pUserFlags = NULL;
+			delete pUserFlags;
+			pUserFlags = nullptr;
+		}
+		if (pUser)
+		{
+			delete pUser;
+			pUser = nullptr;
 		}
 
 		webSocketHelper.Clear();
@@ -80,7 +96,7 @@ public:
 	//@param nIndex 用户索引
 	//@param cNewData 新的数据
 	//@param nNewDataLen 新的数据长度
-	bool RestSendData(int nIndex, char* cNewData = NULL, uint nNewDataLen = 0);
+	bool RestSendData(int nIndex, const char* cNewData = NULL, uint nNewDataLen = 0);
 
 	//@brief 是否是websocket IO事件
 	//@param nIndex 用户索引
@@ -96,7 +112,7 @@ public:
 
 	//@brief 获取用户
 	//@param nIndex 用户索引
-	virtual stUserData* GetUser(int nIndex); //获取用户数据
+	virtual stUserData* GetUserData(int nIndex); //获取用户数据
 
 	//@brief 发送数据
 	//@param pUserFlags 用户标志
@@ -106,7 +122,7 @@ public:
 	//@param pUserFlags 用户标志
 	//@param cSendData 将要发送的数据
 	//@param nSendDataLen 发送的数据长度
-	virtual	int SendData(stUserFlags* pUserFlags, char* cSendData, uint nSendDataLen);
+	virtual	int SendData(stUserFlags* pUserFlags, const char* cSendData, uint nSendDataLen);
 
 	//@brief 添加用户
 	//@param nSocketID 链接的客户端ID
@@ -121,10 +137,22 @@ public:
 	//@param uMainCmd 主命令码
 	//@param uSubCmd 子命令码
 	//@param cSendData 将要发送的数据
-	virtual int SendData(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd, char* cSendData);
+	//@param nDataLen 数据长度
+	virtual int SendCmd(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd, const char* cSendData, uint nDataLen);
 
-	//@brief 链接测试
-	virtual void KeepLife();
+	////@brief 发送数据
+	////@param pUserFlags 用户标志
+	////@param uMainCmd 主命令码
+	////@param uSubCmd 子命令码
+	////@param buf 将要发送的数据
+	////@param nLen 数据长度
+	//virtual int SendCmd(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd, const void* buf, uint nLen);
+
+	//@brief 广播数据
+	//@param uMainCmd 主命令码
+	//@param uSubCmd 子命令码
+	//@param cSendData 将要发送的数据
+	virtual int BroadcastCmd(uint uMainCmd, uint uSubCmd, const vector<uint>&& vcExceptUserID, const char* cSendData, uint nDataLen);
 
 private:
 	//@brief 解包

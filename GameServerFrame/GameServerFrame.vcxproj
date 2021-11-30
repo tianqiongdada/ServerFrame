@@ -86,6 +86,8 @@
     <ClCompile Include="base\LogStream.cpp" />
     <ClCompile Include="base\Timestamp.cpp" />
     <ClCompile Include="CmdDeal.cpp" />
+    <ClCompile Include="common.cpp" />
+    <ClCompile Include="CUser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mysql\AsyDBTask.cpp" />
     <ClCompile Include="mysql\Field.cpp" />
@@ -114,6 +116,7 @@
     <ClInclude Include="CmdDeal.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="commonCmd.h" />
+    <ClInclude Include="CUser.h" />
     <ClInclude Include="Interface\IEpoller.h" />
     <ClInclude Include="Interface\IUserManager.h" />
     <ClInclude Include="mysql\AsyDBTask.h" />

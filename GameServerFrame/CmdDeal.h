@@ -10,7 +10,7 @@ public:
 	virtual ~CCmdDeal();
 
 public:
-	void DealCmd(uint nMainCmd, uint nSubCmd, 
+	void DealCmd(int nIndex, uint nMainCmd, uint nSubCmd, 
 		char* cData, uint nDataLen, char* cSendData, uint &nSendLen);
 
 private:

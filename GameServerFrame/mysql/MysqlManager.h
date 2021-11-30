@@ -6,8 +6,9 @@
 
 enum emHostID
 {
-	HOST_TEST = 0,
+	HOST_LOCAL = 0,
 };
+
 
 #define MAXCMDLEN 8192
 

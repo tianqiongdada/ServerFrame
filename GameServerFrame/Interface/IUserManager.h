@@ -5,11 +5,12 @@ struct stUserData;
 struct IUserManger
 {
 	virtual bool RecvData(int nIndex, char* cRcvData, uint nDataLen) = 0;
-	virtual stUserData* GetUser(int nIndex) = 0;
+	virtual stUserData* GetUserData(int nIndex) = 0;
 	virtual int SendData(stUserFlags* pUserFlags) = 0;
-	virtual	int SendData(stUserFlags* pUserFlags, char* cSendData, uint nSendDataLen) = 0;
+	virtual	int SendData(stUserFlags* pUserFlags,const char* cSendData, uint nSendDataLen) = 0;
 	virtual bool addUser(int nSocketID, int& nIndex) = 0;
 	virtual bool CloseConnect(int nIndex) = 0;
-	virtual int SendData(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd, char* cSendData) = 0;
-	virtual void KeepLife() = 0;
+	virtual int SendCmd(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd, const char* cSendData, uint nDataLen) = 0;
+	//virtual int SendCmd(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd, const void* buf, uint nLen) = 0;
+	virtual int BroadcastCmd(uint uMainCmd,  uint uSubCmd, const vector<uint>&& vcExceptUserID, const char* cSendData, uint nDataLen) = 0;
 };

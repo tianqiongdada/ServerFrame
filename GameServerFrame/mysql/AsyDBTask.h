@@ -52,17 +52,3 @@ static bool doAsyDBTask(std::shared_ptr<CAsyDBTask> pAsyDBTask)
 
 	return false;
 }
-
-
-static bool doAsyDBTask2(CAsyDBTask* pAsyDBTask)
-{
-	bool bSuc = false;
-	if (pAsyDBTask)
-	{
-		bSuc = pAsyDBTask->doTask();
-		//delete pAsyDBTask;
-		//pAsyDBTask = nullptr;
-	}
-
-	return bSuc;
-}

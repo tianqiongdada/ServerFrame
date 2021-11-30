@@ -49,7 +49,11 @@ void TimingTaskCommit(TimeEnum entime, string&& strDes, T&& t, Args&&... args)
 	function<void()> func = [task] { task(); };
 
 	if (g_mapTimingTasks.find(entime) == g_mapTimingTasks.end())
-		g_mapTimingTasks[entime] = std::vector<stTimingTaskInfo>{};
+	{
+		LOG_ERROR << "no such timetask object!";
+		return;
+		//g_mapTimingTasks[entime] = std::vector<stTimingTaskInfo>{};
+	}
 
 	//uuid_t uu;
 	//uuid_generate(uu);

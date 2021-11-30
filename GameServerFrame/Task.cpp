@@ -42,7 +42,7 @@ void CTask::TaskAccept(IUserManger* pUserManager, IEpoller* pEpoller, int nListe
 			continue;
 		}
 
-		if (pEpoller->add(nAcceptfd, pUserManager->GetUser(nUserIndex)->pUserFlags, EPOLLIN) < 0)
+		if (pEpoller->add(nAcceptfd, pUserManager->GetUserData(nUserIndex)->pUserFlags, EPOLLIN) < 0)
 			LOG_ERROR << "Epoll ctl add error!";
 	}
 }
@@ -78,7 +78,7 @@ void CTask::TaskRead(IUserManger* pUserManager, stUserFlags* pUserFlags)
 		//}
 		if (EAGAIN == errno) //如果内核缓冲区空了，继续往下面走;
 		{
-			LOG_INFO << "read error , no more data! len:" << nTotaleRead;
+			//LOG_INFO << "read error , no more data! len:" << nTotaleRead;
 		}
 		else //链接出错了，关闭链接
 		{
@@ -129,5 +129,5 @@ void CTask::TaskWrite(IUserManger* pUserManager, IEpoller* pEpoller, stUserFlags
 
 void CTask::UserKeepLife(IUserManger* pUserManager)
 {
-	pUserManager->KeepLife();
+	pUserManager->BroadcastCmd(CMD_PING, 0, vector<uint>{}, "this is a test:测试!", strlen("this is a test:测试!"));
 }

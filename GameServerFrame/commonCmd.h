@@ -3,8 +3,12 @@
 #include <string.h>
 
 #define CMD_LOGIN	0x01		//登陆
+#define CMD_LOGIN_SUCESS	0x02		//登陆成功
+#define CMD_USER_LOING	0x03		//有用户登陆成功
 
-#define CMD_PING	0xFF		//keep life
+
+#define CMD_TALK	0xFE		//聊天
+#define CMD_PING	0xFF		//ping
 
 //协议头
 struct HeadInfo
@@ -23,7 +27,7 @@ struct HeadInfo
 	}
 };
 
-static void PackData(uint nMainCmd, uint nSubCmd, char* cSrcData, uint nSrcLen, char* cSendData, uint& nSendDataLen)
+static void PackData(uint nMainCmd, uint nSubCmd, const char* cSrcData, uint nSrcLen, char* cSendData, uint& nSendDataLen)
 {
 	HeadInfo headInfo;
 	headInfo.u_nMainCmd = nMainCmd;

@@ -249,7 +249,6 @@ int WebSocketHelper::Unpack(char *recvData,ushort  dwRecvLen, char *cmdData, ush
 	else if (payloadLength == 0x7f)  //127表示后8个 byte，取64位无符号整数值，是负载长度
 	{			 
 		// 数据过长,暂不支持
-		//无效数据，清
 		Clear();
 		return WEBSOCKET_ERROR;
 	}

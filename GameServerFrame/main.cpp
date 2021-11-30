@@ -4,6 +4,7 @@
 #include "TC_Epoller.h"
 #include "UserData.h"
 #include "TimerManager.h"
+#include "mysql/MysqlManager.h"
 
 //#include <pthread.h>
 
@@ -21,10 +22,20 @@ extern "C"
 
 int main(int argc, char* argv[])
 {
-	whx::CThreadPool	myThreadPool{ 4 };										//根据2n+2创建线程数量， n是内核数
-	TC_Epoller			tc_eppller;												//epoll 对象
+	if (argc <= 1)
+	{
+		LOG_INFO << "未设置端口号";
+		return 0;
+	}
+
+	whx::CThreadPool	myThreadPool{ 4 };										 //根据2n+2创建线程数量， n是内核数
+	TC_Epoller			tc_eppller;												 //epoll 对象
 	CUserManager*		pUserManger = new CUserManager((IEpoller*)&tc_eppller);  //用户管理
 	TimerManager		timeManager((IEpoller*)&tc_eppller);					 //定时器管理
+
+	g_Member.pThreadPool = &myThreadPool;
+	g_Member.pUserMgr = (IUserManger*)pUserManger;
+	g_Member.pEpoll = &tc_eppller;
 
 	int nEventIndex = 0;	//事件索引
 	int nRet = -1;			//socket 操作返回值	
@@ -51,10 +62,27 @@ int main(int argc, char* argv[])
 	}
 
 	//下面是服务端IP地址的绑定和监听
+	int nIP_TYPE = AF_INET;
+
+	vector<string> vcIpList;
+	get_ip_linux(nIP_TYPE, vcIpList);
+	string strIP;
+	for (auto ip : vcIpList)
+	{
+		if ( ip != "127.0.0.1")
+		{
+			strIP = ip;
+			break;
+		}
+	}
+
 	memset(&serveraddr, 0x00, sizeof(serveraddr));
-	serveraddr.sin_family = AF_INET;
-	serveraddr.sin_addr.s_addr = inet_addr(SERV_IP);
-	serveraddr.sin_port = htons(SERV_PORT);
+	serveraddr.sin_family = nIP_TYPE;
+	serveraddr.sin_addr.s_addr = inet_addr(strIP.c_str());
+	int nPort = atoi(argv[1]);
+	serveraddr.sin_port = htons(nPort);
+	LOG_INFO << "绑定IP:" << strIP << ",端口号:" << argv[1];
+
 	if (bind(nListenfd, (struct sockaddr*) & serveraddr, sizeof(serveraddr)) < 0)
 	{
 		LOG_ERROR << "Bind fd fail!";
@@ -86,6 +114,12 @@ int main(int argc, char* argv[])
 	if (!timeManager.CreateTimerTasks()) //创建定时任务
 	{
 		LOG_ERROR << "定时器创建失败!";
+		return 0;
+	}
+
+	if (!g_MysqlManager.Init())
+	{
+		LOG_ERROR << "mysql data init err!";
 		return 0;
 	}
 

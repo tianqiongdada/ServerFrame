@@ -43,8 +43,5 @@ struct stProcedureParam
 	string	strFieldValue;	//参数值
 };
 
-#define  CALL_LOGIN 0x01
-struct CallLoginOut
-{
-	
-};
+#define  DB_CALL_LOGIN 0x01
+

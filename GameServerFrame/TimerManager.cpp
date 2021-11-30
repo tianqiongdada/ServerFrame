@@ -53,7 +53,7 @@ int TimerManager::_CreateTimerObj(uint uiSec, uint uiNsec)
     timeValue.it_value.tv_sec = (time_t)uiSec;
     timeValue.it_value.tv_nsec = (long)uiNsec;
 
-    //设置定时器周期
+    //设置定时器周期,都为0的话只执行一次
     timeValue.it_interval.tv_sec = (time_t)uiSec;
     timeValue.it_interval.tv_nsec = (long)uiNsec;
 
@@ -115,7 +115,6 @@ void TimerManager::Timer5Sec(int tFd)
 		{
 			t_task.task();
 		}
-        //pUserManager->KeepLife();
 	}
 }
 
@@ -177,9 +176,9 @@ bool TimerManager::CreateTimerTasks()
     TimingFunc t30 = Timer30Sec;
     //TimingFunc t60 = Timer60Sec;
     int nRet = -1;
-	nRet = CreateTimerTask(0, 100, t001);
+	/*nRet = CreateTimerTask(0, 100, t001);
 	if (nRet < 0)
-		return false;
+		return false;*/
 
 	nRet = CreateTimerTask(1, 0, t1);
     if (nRet < 0)

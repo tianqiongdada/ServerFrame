@@ -114,7 +114,7 @@ bool CUserManager::RecvData(int nIndex, char* cRcvData, uint nDataLen)
 	return true;
 }
 
-stUserData* CUserManager::GetUser(int nIndex)
+stUserData* CUserManager::GetUserData(int nIndex)
 {
 	return &m_UserDataArr[nIndex];
 }
@@ -139,8 +139,8 @@ void CUserManager::_UnpackData(int nIndex)
 		HeadInfo hInfo;
 		memcpy(&hInfo, data.cRcvData + nOffset, nHeadLen);
 
-		printf("[%s %d] buf:%s, TotalLen:%d, MainCmd:%u, dataLen:%u !\n", __FUNCTION__, __LINE__, data.cRcvData,
-			data.nRcvDataLen, hInfo.u_nMainCmd, hInfo.u_nDataLen);
+		//printf("[%s %d] buf:%s, TotalLen:%d, MainCmd:%u, dataLen:%u !\n", __FUNCTION__, __LINE__, data.cRcvData,
+		//	data.nRcvDataLen, hInfo.u_nMainCmd, hInfo.u_nDataLen);
 
 		nGoupDataLen = nHeadLen +hInfo.u_nDataLen;
 		if (nGoupDataLen > data.nRcvDataLen)  //一组比存储数据长，跳出等下次接收完整
@@ -157,7 +157,7 @@ void CUserManager::_UnpackData(int nIndex)
 		//处理命令,并且获取将要发送的数据包
 		char cSendBuf[MAX_SENDBUF_LEN] = {};
 		uint nDataLen = 0;
-		m_CmdDeal.DealCmd(hInfo.u_nMainCmd, hInfo.u_nSubCmd, cData, hInfo.u_nDataLen, cSendBuf, nDataLen);
+		m_CmdDeal.DealCmd(nIndex, hInfo.u_nMainCmd, hInfo.u_nSubCmd, cData, hInfo.u_nDataLen, cSendBuf, nDataLen);
 		if (nDataLen > 0) //存在需要发送的数据
 		{
 			int nRet = 0;
@@ -215,9 +215,7 @@ bool CUserManager::addUser(int nSocketID, int &nIndex)
 		else
 		{
 			m_UserDataArr[iUserIndex].bHaveData = true;
-			
-			if (!m_UserDataArr[iUserIndex].pUserFlags)
-				m_UserDataArr[iUserIndex].pUserFlags = new stUserFlags;
+			m_UserDataArr[iUserIndex].init();
 			m_UserDataArr[iUserIndex].pUserFlags->setParams(TYPE_SOCKET, nSocketID);
 			m_UserDataArr[iUserIndex].pUserFlags->nSocketID = nSocketID;
 			m_UserDataArr[iUserIndex].pUserFlags->nUserIndex = iUserIndex;
@@ -332,7 +330,7 @@ int CUserManager::SendData(stUserFlags* pUserFlags)
 	return nWriteBytes;
 }
 
-int CUserManager::SendData(stUserFlags* pUserFlags, char* cSendData, uint nSendDataLen)
+int CUserManager::SendData(stUserFlags* pUserFlags, const char* cSendData, uint nSendDataLen)
 {
 	if (!pUserFlags)
 	{
@@ -363,7 +361,7 @@ int CUserManager::SendData(stUserFlags* pUserFlags, char* cSendData, uint nSendD
 	while (nOffset > 0)
 	{
 		nWriteBytes = write(nSocketID, cSendData + nSendDataLen - nOffset, nOffset);
-		LOG_INFO << "SendSize:%d" << nWriteBytes;
+		LOG_INFO << "SendSize:" << nWriteBytes;
 		if (nWriteBytes < 0)
 		{
 			if (EAGAIN == errno) //内核输出缓冲区满了
@@ -396,7 +394,7 @@ int CUserManager::SendData(stUserFlags* pUserFlags, char* cSendData, uint nSendD
 	return nWriteBytes;
 }
 
-int CUserManager::SendData(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd, char* cSendData)
+int CUserManager::SendCmd(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd,const char* cSendData, uint nDataLen)
 {
 	if (!pUserFlags)
 	{
@@ -405,7 +403,6 @@ int CUserManager::SendData(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd,
 
 	int nSocketID = pUserFlags->nSocketID;
 	int nUserIndex = pUserFlags->nUserIndex;
-	int nDataLen = strlen(cSendData);
 	if (nDataLen <= 0)
 	{
 		LOG_ERROR << "dataLen Err!";
@@ -470,32 +467,41 @@ int CUserManager::SendData(stUserFlags* pUserFlags, uint uMainCmd, uint uSubCmd,
 	return nWriteBytes;
 }
 
-void CUserManager::KeepLife()
+int CUserManager::BroadcastCmd(uint uMainCmd,uint uSubCmd,const vector<uint>&& vcExceptUserID, const char* cSendData, uint nDataLen)
 {
-	bool bAdd = false;
-	for (int iUserIndex = 0; iUserIndex < MAX_USER_NUM; ++iUserIndex)
+	for (auto &userData : m_UserDataArr)
 	{
-		if (!m_UserDataArr[iUserIndex].bHaveData)
+		if (!userData.bHaveData)
 			continue;
 
-		LOG_INFO << "ping 测试, socketID:" << m_UserDataArr[iUserIndex].pUserFlags->nSocketID;
+		CUser* pUser = userData.pUser;
+		if (pUser)
+		{
+			bool bExceptID = false;
+			for (auto &id : vcExceptUserID)
+			{
+				if (id == pUser->m_utID)
+				{
+					bExceptID = true;
+					break;
+				}
+			}
+			if (bExceptID)
+				continue;
+		}
 
-		SendData(m_UserDataArr[iUserIndex].pUserFlags, CMD_PING, 0, "测试");
+		SendCmd(userData.pUserFlags, uMainCmd, uSubCmd, cSendData, nDataLen);
 	}
 }
 
 bool CUserManager::RestRcvData(int nIndex, char* cNewData, uint nNewDataLen)
 {
 	if (nIndex < 0 || nIndex >= MAX_USER_NUM)
-	{
 		return false;
-	}
 
 	stUserData &data = m_UserDataArr[nIndex];
 	if (!data.bHaveData)
-	{
 		return false;
-	}
 
 	memset(data.cRcvData, 0, MAX_DATA_LEN);
 	memcpy(data.cRcvData, cNewData, nNewDataLen);
@@ -503,7 +509,7 @@ bool CUserManager::RestRcvData(int nIndex, char* cNewData, uint nNewDataLen)
 	return true;
 }
 
-bool CUserManager::RestSendData(int nIndex, char* cNewData, uint nNewDataLen)
+bool CUserManager::RestSendData(int nIndex, const char* cNewData, uint nNewDataLen)
 {
 	if (nIndex < 0 || nIndex >= MAX_USER_NUM)
 	{

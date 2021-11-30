@@ -16,6 +16,9 @@
     <Filter Include="Interface">
       <UniqueIdentifier>{ea4ae35b-01a5-4ada-8c68-42e59fe8e738}</UniqueIdentifier>
     </Filter>
+    <Filter Include="mysql">
+      <UniqueIdentifier>{368f074c-932b-411d-aedf-cba2b82ce036}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CmdDeal.h">
@@ -84,14 +87,31 @@
     <ClInclude Include="ThreadPool.h">
       <Filter>HeadFiles</Filter>
     </ClInclude>
-    <ClInclude Include="mysql\AsyDBTask.h" />
-    <ClInclude Include="mysql\Field.h" />
-    <ClInclude Include="mysql\MysqlCommon.h" />
-    <ClInclude Include="mysql\MysqlLink.h" />
-    <ClInclude Include="mysql\MysqlLinkManager.h" />
-    <ClInclude Include="mysql\MysqlManager.h" />
-    <ClInclude Include="mysql\MysqlTask.h" />
-    <ClInclude Include="mysql\QueryResult.h" />
+    <ClInclude Include="mysql\AsyDBTask.h">
+      <Filter>mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="mysql\Field.h">
+      <Filter>mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="mysql\MysqlCommon.h">
+      <Filter>mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="mysql\MysqlLink.h">
+      <Filter>mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="mysql\MysqlLinkManager.h">
+      <Filter>mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="mysql\MysqlManager.h">
+      <Filter>mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="mysql\MysqlTask.h">
+      <Filter>mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="mysql\QueryResult.h">
+      <Filter>mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="CUser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UserData.cpp">
@@ -145,11 +165,27 @@
     <ClCompile Include="TimerManager.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="mysql\AsyDBTask.cpp" />
-    <ClCompile Include="mysql\Field.cpp" />
-    <ClCompile Include="mysql\MysqlLink.cpp" />
-    <ClCompile Include="mysql\MysqlLinkManager.cpp" />
-    <ClCompile Include="mysql\MysqlManager.cpp" />
-    <ClCompile Include="mysql\QueryResult.cpp" />
+    <ClCompile Include="mysql\AsyDBTask.cpp">
+      <Filter>mysql</Filter>
+    </ClCompile>
+    <ClCompile Include="mysql\Field.cpp">
+      <Filter>mysql</Filter>
+    </ClCompile>
+    <ClCompile Include="mysql\MysqlLink.cpp">
+      <Filter>mysql</Filter>
+    </ClCompile>
+    <ClCompile Include="mysql\MysqlLinkManager.cpp">
+      <Filter>mysql</Filter>
+    </ClCompile>
+    <ClCompile Include="mysql\MysqlManager.cpp">
+      <Filter>mysql</Filter>
+    </ClCompile>
+    <ClCompile Include="mysql\QueryResult.cpp">
+      <Filter>mysql</Filter>
+    </ClCompile>
+    <ClCompile Include="common.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="CUser.cpp" />
   </ItemGroup>
 </Project>

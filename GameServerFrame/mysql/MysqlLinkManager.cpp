@@ -30,15 +30,18 @@ bool CMysqlLinkManager::Init(const std::vector<string>& vcDatabase)
 {
 	for (auto database : vcDatabase)
 	{
-		AddLink(std::move(database));
+		if (!AddLink(std::move(database)))
+			return false;
 	}
+
+	return true;
 }
 
 bool CMysqlLinkManager::AddLink(string&& baseName)
 {
 	if (m_mapMysqlLink.find(baseName) != m_mapMysqlLink.end())
 	{
-		LOG_ERROR << baseName << " is already link!";
+		LOG_INFO << baseName << " is already link!";
 		return false;
 	}
 

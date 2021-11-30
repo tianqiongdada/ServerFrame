@@ -16,7 +16,7 @@ CMysqlManager::~CMysqlManager(void)
 
 bool CMysqlManager::Init()
 {
-	bool bSuc = InitMysqlLink(HOST_LOCAL, "172.17.0.12", "usename", "passwd", vector<string>{"test", "User"});
+	bool bSuc = InitMysqlLink(HOST_LOCAL, "localhost", "wanghx", "wang02082958413", vector<string>{"test", "User"});
 	return bSuc;
 }
 
@@ -153,7 +153,7 @@ bool CMysqlManager::DBCallBack(vector<vector<Field>>&& vcResults, int nDbCallBac
 {
 	switch (nDbCallBackID)
 	{
-	case CALL_LOGIN:
+	case DB_CALL_LOGIN:
 	{
 		if (vcResults.empty())
 			break;
